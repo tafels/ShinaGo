@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Services\LocalizationService;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::group(
+    [
+        'prefix' => LocalizationService::locale(),
+        'middleware' => 'setLocale',
+    ],
+    function () {
+        Route::get('/', function () {
+            return view('welcome');
+        });
+        Route::get('/page/{id}', function () {
+            return view('page');
+        });
+    }
+);
