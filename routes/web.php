@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\RouteController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Middleware\CatalogIsValid;
+use App\Http\Middleware\PostIsValid;
 use Illuminate\Support\Facades\Route;
 use App\Services\LocalizationService;
+use App\Http\Controllers\MainController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,17 +20,9 @@ use App\Services\LocalizationService;
 |
 */
 
-Route::group(
-    [
-        'prefix' => LocalizationService::locale(),
-        'middleware' => 'setLocale',
-    ],
-    function () {
-        Route::get('/', function () {
-            return view('welcome');
-        });
-        Route::get('/page/{id}', function () {
-            return view('page');
-        });
-    }
+Route::group(['prefix' => LocalizationService::locale(), 'middleware' => 'setLocale'], function () {
+    Route::get('/', [MainController::class, 'index'])->name('index');
+    Route::get('/announcement', [AnnouncementController::class, 'announcement'])->name('announcement');
+    Route::get('/{slugs}/{any?}', RouteController::class)->where('slugs', '[a-z0-9\_\-\/]+')->name('indexs');
+}
 );
