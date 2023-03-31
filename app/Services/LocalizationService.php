@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Redirect;
+use App;
 
-class LocalizationService
+class LocalizationService extends BaseService
 {
     public function locale()
     {
+        request()->setDefaultLocale(config("app.locale"));
 
         $locale = request()->segment(1, '');
 
@@ -16,6 +17,8 @@ class LocalizationService
         }
 
         if ($locale && in_array($locale, config("app.locales"))) {
+            App::setLocale($locale);
+            request()->setLocale($locale);
             return $locale;
         }
 
