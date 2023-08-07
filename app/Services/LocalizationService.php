@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App;
+use Illuminate\Support\Facades\Route;
 
 class LocalizationService extends BaseService
 {

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Catalog;
+use App\Models\Category;
 use App\Models\Template;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,7 +17,6 @@ class CreateTemplatesTable extends Migration
     {
         Schema::create((new Template())->getTable(), function (Blueprint $table) {
             $table->increments('id');
-            //$table->foreign('id')->references('template_id')->on((new Catalog())->getTable());
             $table->string('name')->unique();
             $table->json('params');
             $table->boolean('published')->default(1);

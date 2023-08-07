@@ -121,6 +121,13 @@ return [
     |
     */
 
+    'ignoreQueryUrl' => [
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'gclid'
+    ],
+
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
@@ -177,7 +184,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\LocalizationServiceProvider::class,
-        App\Providers\UrlServiceProvider::class,
+        App\Providers\UrlHelperServiceProvider::class,
+        App\Providers\CharacteristicServiceProvider::class,
+        App\Providers\FilterServiceProvider::class,
     ],
 
     /*
@@ -232,9 +241,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Localization' => App\Facades\Localization::class,
+        'LocalizationService' => App\Facades\LocalizationService::class,
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
         'UrlHelper' => App\Facades\UrlHelper::class,
+        'CharacteristicService' => App\Facades\CharacteristicService::class,
+        'FilterService' => App\Facades\FilterService::class,
 
 
     ],

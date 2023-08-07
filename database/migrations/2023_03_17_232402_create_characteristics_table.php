@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\CatalogGroup;
+use App\Models\CategoryGroup;
 use App\Models\Characteristic;
 use App\Models\CharacteristicValue;
 use Illuminate\Database\Migrations\Migration;
@@ -13,15 +13,16 @@ class CreateCharacteristicsTable extends Migration
     {
         Schema::create((new Characteristic())->getTable(), function (Blueprint $table) {
             $table->increments('id');
-            $table->string('short_name', 16)->nullable();
             $table->string('slug', 256)->nullable();
-            $table->boolean('is_main_filter')->default(0);
-            $table->boolean('is_filter')->default(0);
+            $table->string('short_name', 16)->nullable();
+            $table->boolean('is_main')->default(0);
             $table->integer('group_id');
-            $table->string('type_input', 32);
+            $table->boolean('multiple')->default(0);
             $table->json('params');
-            $table->boolean('published')->default(1);
+            $table->integer('ordering_main')->default(0);
+            $table->integer('ordering_slug')->default(0);
             $table->integer('ordering')->default(99999);
+            $table->boolean('published')->default(1);
         });
     }
 

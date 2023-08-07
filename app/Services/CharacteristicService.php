@@ -63,13 +63,16 @@ class CharacteristicService extends BaseService
                     });
             }
 
-            $item->value = $map->where(['published' => true]);
-            if (isset($this->popular)) {
-                $item->value->orderBy('popular','desc');
-            }
-            $item->value->orderBy('ordering')
-                ->orderBy('name')
-                ->get()->except(['updated_at', 'created_at']);;
+            $item->value = $map->where(['published' => true])->get();
+
+
+
+//            if (isset($this->popular)) {
+//                $item->value->orderBy('popular','desc');
+//            }
+//            $item->value->orderBy('ordering')
+//                ->orderBy('name')
+//                ->get()->except(['updated_at', 'created_at']);
         });
 
         return $builder;

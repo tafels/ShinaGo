@@ -1,0 +1,10 @@
+header {
+    margin-bottom: 65px;
+}
+header  nav.navbar {
+    height: 65px;
+}
+.header-content {
+    height: 65px;
+    background: #ffffff;
+}

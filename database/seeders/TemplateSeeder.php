@@ -18,10 +18,10 @@ class TemplateSeeder extends Seeder
         $columns = [];
 
         $columns[] = ['name' => 'index', 'params' => '{"type":"index"}'];
-        $columns[] = ['name' => 'catalog_rims', 'params' => '{"type":"catalog_rims"}'];
-        $columns[] = ['name' => 'catalog_tires', 'params' => '{"type":"catalog_tires"}'];
-        $columns[] = ['name' => 'posts', 'params' => '{"type":"posts"}'];
-        $columns[] = ['name' => 'post', 'params' => '{"type":"post"}'];
+        $columns[] = ['name' => 'category_rims', 'params' => '{"type":"category_rims"}'];
+        $columns[] = ['name' => 'category_tires', 'params' => '{"type":"category_tires"}'];
+        $columns[] = ['name' => 'category_posts', 'params' => '{"type":"category_posts"}'];
+        $columns[] = ['name' => 'category_post', 'params' => '{"type":"category_post"}'];
 
         foreach ($columns as $colum) {
             DB::table((new Template())->getTable())->insert($colum);

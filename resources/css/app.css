@@ -1,0 +1,17 @@
+body {
+    min-width: 320px;
+}
+.button_green {
+    text-align: center;
+    text-transform: uppercase;
+    color: #ffffff !important;
+    cursor: pointer;
+    background-color: #008906 !important;
+}
+.button_green:hover {
+    background-color: #00aa06 !important;
+}
+.button_green span {
+    color: #ffffff !important;
+}
+

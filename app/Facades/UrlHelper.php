@@ -3,12 +3,14 @@
 namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use App\Services\UrlService;
+use App\Services\UrlHelperService;
 
 /**
- * @method static \App\Facades\UrlHelper segmentUrl($segments = [])
- * @method static \App\Facades\UrlHelper searchSlugSegments(object $class, int $parent_id, string $segment)
- * @see \App\Facades\UrlHelper
+ * @method static \App\Services\UrlHelperService segmentUrl($segments = [])
+ * @method static \App\Services\UrlHelperService excludeSegmentLocale()
+ * @method static \App\Services\UrlHelperService ignoreQueryUrl(string $data)
+ * @method static \App\Services\UrlHelperService searchSlugSegments(object $class, int $parent_id, string $segment)
+ * @see \App\Services\UrlHelperService
  */
 
 class UrlHelper extends Facade
@@ -20,6 +22,6 @@ class UrlHelper extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return UrlService::class;
+        return UrlHelperService::class;
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\FilterService;
 use Illuminate\Http\Response;
 use Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 
 class MainController extends BaseController
 {
@@ -13,29 +12,19 @@ class MainController extends BaseController
      * Handle the incoming request.
      *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
      */
-//    public function __invoke(Request $request)
-//    {
-//        //
-//    }
-
     public function index(Request $request)
     {
+        FilterService::setIsMain(true);
+        $filterItem = FilterService::getFilterItem();
+        $filterValue = FilterService::getFilterValue();
 
-        return view('index');
-    }
+//        dd($filterValue);
 
-    public function category(Request $request)
-    {
-        return 'dsfdsfdsf';
-    }
-    public function post(Request $request)
-    {
-        return view('page');
-    }
-    public function page(Request $request)
-    {
-        return view('page');
+        return view('index', [
+            'filterItem' => $filterItem,
+            'filterValue' => $filterValue,
+        ]);
     }
 }

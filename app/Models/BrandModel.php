@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class BrandModel extends Model
 {
-    use HasFactory;
 
     /**
      * @return string
