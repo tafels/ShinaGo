@@ -64,6 +64,15 @@ class FilterService extends BaseService
     //        Redis::set('name1', $this->getFilterType());
     //        return Redis::get('name1');
 
+    private function getRouteUrl($category, $any = [], $query = null, $absolute = true)
+    {
+        if (!empty($any)) {
+            return UrlHelperService::routeUrl('initCategoryAny', ['category' => $category, 'any' => $any], $query, $absolute);
+        } else {
+            return UrlHelperService::routeUrl('initCategory', ['category' => $category], $query, $absolute);
+        }
+    }
+
     public function getFilterItem()
     {
         $cacheKey = 'filterItem-' . $this->getIsMain() . '-' . request()->getLocale();
@@ -213,7 +222,7 @@ class FilterService extends BaseService
 
             $key = $item->get('short_name');
 
-            if (!$item->get('many')) {
+            if (!$item->get('multiple')) {
                 $arrSlugs['path'][] = $params->get($key);
             } else {
                 if (count($params->get($key)) > 1) {
@@ -223,7 +232,8 @@ class FilterService extends BaseService
                 }
             }
         }
-        return UrlHelperService::routeUrl('init', ['category' => $category->slug, 'any' => $arrSlugs['path']], $arrSlugs['query']);
+
+        return $this->getRouteUrl($category->slug, $arrSlugs['path'], $arrSlugs['query']);
     }
 
     private function searchCategory($segments)
@@ -269,7 +279,7 @@ class FilterService extends BaseService
 
         if (request()->query->get('sort')) {
             $sort = request()->query->get('sort');
-            if(in_array($sort,CategoryService::SORT)){
+            if (in_array($sort, CategoryService::SORT)) {
                 $parameters->put('sort', $sort);
             }
         }
@@ -358,7 +368,7 @@ class FilterService extends BaseService
 
     private function validDataUrl($category, $arrSlugs)
     {
-        $realUrl = UrlHelperService::routeUrl('init', ['category' => $category->slug, 'any' => $arrSlugs['path']], $arrSlugs['query'], false);
+        $realUrl = $this->getRouteUrl($category->slug, $arrSlugs['path'], $arrSlugs['query'], false);
 
         $ignoreUrl = collect(request()->query);
         $ignoreUrl->map(function ($value, $key) use ($ignoreUrl) {
@@ -371,7 +381,7 @@ class FilterService extends BaseService
 
         $arrSlugs['query'] = array_merge($arrSlugs['query'], $ignoreUrl->toArray());
 
-        $validUrl = UrlHelperService::routeUrl('init', ['category' => $category->slug, 'any' => $arrSlugs['path']], $arrSlugs['query'], false);
+        $validUrl = $this->getRouteUrl($category->slug, $arrSlugs['path'], $arrSlugs['query'], false);
 
         if (request()->getRequestUri() !== $validUrl) {
             header("Location: " . $realUrl);

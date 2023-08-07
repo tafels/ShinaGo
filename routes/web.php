@@ -21,7 +21,8 @@ use App\Http\Controllers\MainController;
 Route::group(['prefix' => LocalizationService::locale(), 'middleware' => 'setLocale'], function () {
     Route::get('/', [MainController::class, 'index'])->name('index');
     Route::get('/announcement', [AnnouncementController::class, 'announcement'])->name('announcement');
-    Route::get('/{category}/{any?}', CategoryController::class)->where('category', '[a-z0-9\_\-\/]+')->name('init');
+    Route::get('/{category}', CategoryController::class)->where('category', '[a-z0-9\_\-\/]+')->name('initCategory');
+    Route::get('/{category}/{any?}', CategoryController::class)->where('category', '[a-z0-9\_\-\/]+')->name('initCategoryAny');
 
 
 
