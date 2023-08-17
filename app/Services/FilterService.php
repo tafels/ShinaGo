@@ -84,11 +84,11 @@ class FilterService extends BaseService
 
     public function getFilterValue()
     {
-        $cacheKey = 'filterValue-' . $this->getIsMain() . '-' . request()->getLocale();
+//        $cacheKey = 'filterValue-' . $this->getIsMain() . '-' . request()->getLocale();
 
-        return Cache::remember($cacheKey, now()->addMinute(5), function () {
+//        return Cache::remember($cacheKey, now()->addMinute(5), function () {
             return $this->getValue();
-        });
+//        });
     }
 
     public function getFilterGroupValue()

@@ -35,10 +35,11 @@ class CategoryController extends BaseController
         if(!$this->categoryService->getCategoryId()){
             abort(404);
         }
+        $this->categoryService->findView();
 
         FilterService::initCategoryFilter();
 
-        $this->categoryService->findView();
+
 
         return View::make($this->categoryService->getView(), $this->categoryService->getParameters());
 

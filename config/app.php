@@ -187,6 +187,7 @@ return [
         App\Providers\UrlHelperServiceProvider::class,
         App\Providers\CharacteristicServiceProvider::class,
         App\Providers\FilterServiceProvider::class,
+        App\Providers\MenuServiceProvider::class,
     ],
 
     /*
@@ -246,6 +247,7 @@ return [
         'UrlHelper' => App\Facades\UrlHelper::class,
         'CharacteristicService' => App\Facades\CharacteristicService::class,
         'FilterService' => App\Facades\FilterService::class,
+        'MenuService' => App\Facades\MenuService::class,
 
 
     ],

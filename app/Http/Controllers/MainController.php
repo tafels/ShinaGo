@@ -20,8 +20,6 @@ class MainController extends BaseController
         $filterItem = FilterService::getFilterItem();
         $filterValue = FilterService::getFilterValue();
 
-//        dd($filterValue);
-
         return view('index', [
             'filterItem' => $filterItem,
             'filterValue' => $filterValue,

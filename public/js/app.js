@@ -22765,8 +22765,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               }, _this4.initFilterUrl);
             case 3:
               _this4.filterUrl = _context4.sent;
+              _this4.$root.preloaderActive = false;
               location.href = _this4.filterUrl;
-            case 5:
+            case 6:
             case "end":
               return _context4.stop();
           }

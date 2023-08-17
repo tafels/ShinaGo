@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AnnouncementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\Api\FilterController;
 
 
 /*
@@ -26,7 +27,7 @@ Route::group(['prefix' => LocalizationService::locale(), 'middleware' => 'setLoc
 
 
 
-    Route::post('/filter/init-filter', [\App\Http\Controllers\Api\FilterController::class, 'initFilter'])->name('filter.initFilterUrl');
+    Route::post('/filter/init-filter', [FilterController::class, 'initFilter'])->name('filter.initFilterUrl');
 
 
 });

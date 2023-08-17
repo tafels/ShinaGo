@@ -41,6 +41,7 @@ export default {
                 },
                 this.initFilterUrl
             );
+            this.$root.preloaderActive = false;
             location.href = this.filterUrl;
         },
     }

@@ -6,11 +6,8 @@ use App\Models\Category;
 use App\Facades\UrlHelper;
 
 
-
 class CategoryService extends BaseService
 {
-
-
     const DEFAULT = 'asc';
     const SORT = [
         'asc',
@@ -87,11 +84,31 @@ class CategoryService extends BaseService
         }
     }
 
+    public function getCategoryUrlById($categoryId)
+    {
+        $urlCategory = collect([]);
+
+        $category = Category::find($categoryId)->getContent()->where('language', request()->getLocale())->first();
+        $urlCategory->push($category['slug']);
+
+        do {
+            $parentCategory = Category::find($categoryId)->getParentCategory()->first();
+            if ($parentCategory) {
+                $categoryId = $parentCategory['id'];
+                $content = $parentCategory->getContent()->where('language', request()->getLocale())->first();
+                $urlCategory->push($content['slug']);
+            }
+        } while ($parentCategory);
+
+        $urlCategory = $urlCategory->sortKeysDesc()->implode('/');
+        return UrlHelperService::routeUrl('initCategory', ['category' => $urlCategory], null, false);
+    }
+
     public function findView()
     {
-        $template =  Category::find($this->getCategoryId())->getTemplate;
+        $template = Category::find($this->getCategoryId())->getTemplate;
 
-        $this->setView('category.'.$template->name);
+        $this->setView('category.' . $template->name);
         $this->setParameters('template', json_decode($template->params));
     }
 

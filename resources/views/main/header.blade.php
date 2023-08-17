@@ -2,7 +2,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand order-2 order-lg-1" href="#">Navbar</a>
+                <a class="navbar-brand order-2 order-lg-1" href="/">ShinaGo</a>
                 <button class="navbar-toggler order-1" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                         aria-label="Toggle navigation">
