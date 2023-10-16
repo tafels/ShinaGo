@@ -11,9 +11,30 @@ class MenuService extends BaseService
 
     }
 
+    public function getDataMenu (Menu $menu): array
+    {
+        $childMenu = [];
+
+        /** @var Menu $item */
+        if(count($menu->getChild()) && $menu['is_main'] = true) {
+            foreach ($menu->getChild() as $item) {
+                if($menu->getId() == $item->getId()){
+                    continue;
+                }
+                $childMenu[] = $this->getDataMenu($item);
+            }
+        }
+
+        return [
+            'id' => $menu->getId(),
+            'title' => $menu->getMenuLanguage->getTitle(),
+            'childMenu' => $childMenu,
+            'url' => CategoryService::getCategoryUrlById($menu->getCategoryId()),
+        ];
+    }
+
     public function getMenuType($type, $hierarchy = false)
     {
-
         $hierarchy = true;
 
         $menu = Menu::where('published', true)
@@ -23,33 +44,12 @@ class MenuService extends BaseService
             }
             ])->get();
 
-
         $menu = collect($menu)->map(function ($value, $key) {
-            return [
-                'id' => $value->id,
-                'title' => $value->getMenuLanguage->title,
-                'categoryId' => $value->category_id,
-                'parent_id' => $value->parent_id,
-                'url' => CategoryService::getCategoryUrlById($value->category_id),
-            ];
-        })->all();
+            if(is_null($value->getParentId())){
+                return $this->getDataMenu($value);
+            }
+        })->filter();
 
-//        $menu = $menu->groupBy('parent_id');
-
-
-
-//        $menu = $menu->keyBy('id');
-
-//        dd($menu[6]['categoryId']);
-
-        $category = CategoryService::getCategoryUrlById($menu[6]['categoryId']);
-
-
-
-    }
-
-    public function getMenuUrl ()
-    {
-        return '';
+        return $menu;
     }
 }

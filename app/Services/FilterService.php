@@ -61,8 +61,6 @@ class FilterService extends BaseService
     {
         $this->data = $data;
     }
-    //        Redis::set('name1', $this->getFilterType());
-    //        return Redis::get('name1');
 
     private function getRouteUrl($category, $any = [], $query = null, $absolute = true)
     {
