@@ -7,81 +7,27 @@ use App\Models\Post;
 
 class PostService
 {
-    public $postId = 0;
-    public $view;
-    public $parameters = [];
-
-    /**
-     * @return mixed
-     */
-    public function getPostId()
-    {
-        return $this->postId;
-    }
-
-    /**
-     * @param mixed $postId
-     */
-    public function setPostId($postId): void
-    {
-        $this->postId = $postId;
-    }
-
-    /**
-     * @return array
-     */
-    public function getParameters(): array
-    {
-        return $this->parameters;
-    }
-
-
-    /**
-     * @param string $key
-     * @param array|string $value
-     * @return void
-     */
-    public function setParameters(string $key, $value)
-    {
-        $this->parameters[$key] = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getView(): string
-    {
-        return $this->view;
-    }
-
-    /**
-     * @param string $view
-     */
-    public function setView(string $view): void
-    {
-        $this->view = $view;
-    }
-
-    /**
-     * @return void
-     */
     public function initRoutePost(): void
     {
         $segments = (!empty($segments)) ? $segments : request()->segments();
         $Post = app(Post::class);
+        $postId = 0;
 
         for ($i = 0; $i < count($segments); $i++) {
-            $categoryId = UrlHelper::searchSlugSegments($Post, $this->getPostId(), $segments[$i]);
-            if(!$categoryId) break;
-            $this->setPostId($categoryId);
+            $postId = UrlHelper::searchSlugSegments($Post, $this->getPostId(), $segments[$i]);
+            if(!$postId) break;
         }
+
+        return; $this->findView($postId);
     }
 
-    public function findView()
+    public function findView($postId)
     {
-        $template =  Post::find($this->getPostId())->getTemplate;
+        $template =  Post::find($postId)->getTemplate;
 
-        $this->setView('post.'.$template->name);
-        $this->setParameters('template', json_decode($template->params));
+        return [
+            'template' => 'post.' . $template->getName(),
+            'parameters' => json_decode($template->params)
+        ];
     }
 }

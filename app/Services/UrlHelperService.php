@@ -2,14 +2,10 @@
 
 namespace App\Services;
 
-use Illuminate\Contracts\Routing\UrlRoutable;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-
 
 class UrlHelperService extends BaseService
 {
-
     const ignoreQuery = [
 
     ];

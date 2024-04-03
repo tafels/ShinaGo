@@ -2,13 +2,31 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Facades\FilterService;
+use App\Services\FilterService;
 use Illuminate\Routing\Controller;
 use App\Services\CharacteristicService;
 use Illuminate\Http\Request;
 
 class FilterController extends Controller
 {
+
+    /**
+     * @var FilterService
+     */
+    private $filterService;
+    /**
+     * @var CharacteristicService
+     */
+    private $characteristicService;
+
+    /**
+     * MainController construct
+     */
+    public function __construct(FilterService $filterService, CharacteristicService $characteristicService)
+    {
+        $this->filterService = $filterService;
+        $this->characteristicService = $characteristicService;
+    }
 
     const GROUP_TIRES = 1;
     const GROUP_RIMS = 2;
@@ -21,35 +39,31 @@ class FilterController extends Controller
 
     public function initFilter (Request $request)
     {
-        return FilterService::createUrl($request);
+        return $this->filterService->createUrl($request);
     }
 
     public function getFilterValue (Request $request)
     {
         $isMain = $request->get('isMain');
-        $filterValue = app(FilterService::class);
-        $filterValue::setIsMain($isMain);
-        $filterValue = $filterValue::getFilterValue();
+        $filterService = $this->filterService->getFilterSection($isMain);
 
-        return $filterValue->toJson();
+        return $filterService->toJson();
     }
 
     public function getFilterGroupValue (Request $request)
     {
-        $groupId = $request->get('groupId');
-        $filterValue = app(FilterService::class);
-        $filterValue::setGroupId($groupId);
-        $filterValue = $filterValue::getFilterGroupValue();
+        $isMain = $request->get('isMain');
+        $typeFilter = $request->get('typeFilter');
+        $filterValue = $this->filterService->getFilterSectionItem($isMain, $typeFilter);
 
         return $filterValue->toJson();
     }
 
     public function getFilterTypeValue (Request $request)
     {
+        $isMain = $request->get('isMain');
         $typeFilter = $request->get('typeFilter');
-        $filterValue = app(FilterService::class);
-        $filterValue::setTypeFilter($typeFilter);
-        $filterValue = $filterValue::getFilterTypeValue();
+        $filterValue = $this->filterService->getFilterSectionItem($isMain, $typeFilter);
 
         return $filterValue->toJson();
     }
@@ -66,21 +80,17 @@ class FilterController extends Controller
 
     public function filterTires(Request $request)
     {
-        $Characteristic = app(CharacteristicService::class);
-        $Characteristic->setGroupId(self::GROUP_TIRES);
-        $Characteristic->setTypeCharacteristic($request->get('typeCharacteristic'));
-        $Characteristic = $Characteristic->getCharacteristic()->toJson();
+        $typeCharacteristic = $request->get('typeCharacteristic');
+        $characteristicService = $this->characteristicService->getCharacteristic(self::GROUP_TIRES, $typeCharacteristic);
 
-        return $Characteristic;
+        return $characteristicService->toJson();
     }
     public function filterRims(Request $request)
     {
-        $Characteristic = app(CharacteristicService::class);
-        $Characteristic->setGroupId(self::GROUP_RIMS);
-        $Characteristic->setTypeCharacteristic($request->get('typeCharacteristic'));
-        $Characteristic = $Characteristic->getCharacteristic()->toJson();
+        $typeCharacteristic = $request->get('typeCharacteristic');
+        $characteristicService = $this->characteristicService->getCharacteristic(self::GROUP_RIMS, $typeCharacteristic);
 
-        return $Characteristic;
+        return $characteristicService->toJson();
     }
 
 

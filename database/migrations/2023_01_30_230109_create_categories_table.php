@@ -20,7 +20,8 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->integer('parent_id')->unsigned();
             $table->json('params');
-            $table->integer('template_id')->references('id')->on((new Template())->getTable());
+            $table->integer('template_id')->unsigned();
+            $table->foreign('template_id')->references('id')->on((new Template())->getTable());
             $table->boolean('published')->default(1);
             $table->timestamps();
         });

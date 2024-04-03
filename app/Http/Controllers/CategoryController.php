@@ -2,46 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\FilterService;
-use App\Models\Characteristic;
+use App\Services\FilterService;
 use App\Services\CategoryService;
-use App\Services\CharacteristicService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 
 class CategoryController extends BaseController
 {
-
-    /**
-     * @var CategoryService
-     */
     private $categoryService;
+    private $filterService;
 
     /**
-     * CategoryController construct
+     * @param CategoryService $categoryService
+     * @param FilterService $filterService
      */
-    public function __construct()
+    public function __construct(CategoryService $categoryService, FilterService $filterService)
     {
-        $this->categoryService = app(CategoryService::class);
+        $this->categoryService = $categoryService;
+        $this->filterService = $filterService;
     }
 
     /**
      * @param Request $request
      * @return object|false
      */
-    public function __invoke()
+    public function initCategory()
     {
-        $this->categoryService->initCategory();
-        if(!$this->categoryService->getCategoryId()){
-            abort(404);
-        }
-        $this->categoryService->findView();
+        $dataCategory = $this->categoryService->initCategory();
+        $this->isErrorPage($dataCategory['categoryId']);
+        $this->filterService->initCategoryFilter();
 
-        FilterService::initCategoryFilter();
-
-
-
-        return View::make($this->categoryService->getView(), $this->categoryService->getParameters());
-
+        return $this->renderView($dataCategory['template'], $dataCategory['parameters']);
     }
 }

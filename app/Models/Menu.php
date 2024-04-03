@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Menu extends Model
 {
-    use HasFactory;
-
     /**
      * @return string
      */
@@ -22,13 +20,13 @@ class Menu extends Model
     {
         return $this->table;
     }
-
-    /**
-     * @return HasOne
-     */
-    public function getMenuLanguage(): HasOne
+    public function getMenuLanguage($locale = null)
     {
-        return $this->hasOne(MenuLanguage::class);
+        if(!$locale){
+            $locale = request()->getLocale();
+        }
+
+        return $this->hasOne(MenuLanguage::class)->where('language', $locale)->first();
     }
 
     public function getParent()
@@ -39,6 +37,11 @@ class Menu extends Model
     public function getChild()
     {
         return $this->hasMany(Menu::class, 'parent_id', 'id')->get();
+    }
+
+    public function getCategory()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id')->first();
     }
 
     /**

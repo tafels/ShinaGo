@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Characteristic extends Model
 {
-    use HasFactory;
-
     /**
      * @return string
      */
@@ -26,46 +24,95 @@ class Characteristic extends Model
         return $this->table;
     }
 
-    /**
-     * @return HasMany
-     */
-    public function getCharacteristicGroup(): HasMany
+    public function getId()
     {
-        return $this->hasMany(CharacteristicValueGroup::class);
+        return $this->getId();
+    }
+
+    public function getShortName()
+    {
+        return $this->short_name;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function getIsMain()
+    {
+        return $this->is_main;
+    }
+
+    public function getGroupId()
+    {
+        return $this->group_id;
+    }
+
+    public function getMultiple()
+    {
+        return $this->multiple;
+    }
+
+    public function getParams()
+    {
+        return json_decode($this->params);
+    }
+
+    public function getOrderingMain()
+    {
+        return $this->ordering_main;
+    }
+
+    public function getOrderingSlug()
+    {
+        return $this->ordering_slug;
+    }
+
+    public function getOrdering()
+    {
+        return $this->ordering;
+    }
+
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+
+    public function getCharacteristicValues()
+    {
+        return $this->hasMany(CharacteristicValue::class, 'characteristic_id','id');
+    }
+
+    public function getCharacteristicValue()
+    {
+        return $this->hasMany(CharacteristicValue::class, 'characteristic_id','id')->get();
     }
 
     public function getCharacteristicLanguages()
     {
         return $this->hasManyThrough(
             CharacteristicValueLanguage::class,
-            CharacteristicValueGroup::class,
+            CharacteristicValue::class,
             'characteristic_id',
-            'parent_id',
+            'characteristic_value_id',
             'id',
             'id'
-        );
+        )->get();
     }
 
-
-//Characteristic
-//  id - integer
-//
-//CharacteristicValueGroup
-//  id - integer
-//  characteristic_id - integer
-//
-//CharacteristicValueLanguage
-//  id - integer
-//  parent_id - integer
-
-//return $this->hasManyThrough(
-//  CharacteristicValueLanguage::class,
-//  CharacteristicValueGroup::class,
-//  'characteristic_id', // Внешний ключ в таблице `CharacteristicValueGroup` ...
-//  'parent_id', // Внешний ключ в таблице `CharacteristicValueLanguage` ...
-//  'id', // Локальный ключ в таблице `Characteristic` ...
-//  'id' // Локальный ключ в таблице `CharacteristicValueGroup` ...
-//);
+    public function getCharacteristicByLocal()
+    {
+        return $this->hasManyThrough(
+            CharacteristicValueLanguage::class,
+            CharacteristicValue::class,
+            'characteristic_id',
+            'characteristic_value_id',
+            'id',
+            'id'
+        )->get();
+    }
 
     /**
      * @return HasMany

@@ -11,15 +11,20 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+{{--@php--}}
+{{--    dump(Route::currentRouteName());--}}
+{{--@endphp--}}
 <div id="app">
+{{--<div>--}}
     <header>
-        @include('main.header')
+        @include('header')
     </header>
     <main>
+
         @yield('content')
     </main>
     <footer>
-        @include('main.footer')
+        @include('footer')
     </footer>
     <preloader></preloader>
 </div>

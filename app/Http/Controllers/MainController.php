@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\FilterService;
-use Illuminate\Http\Response;
-use Request;
+use App\Services\FilterService;
+use Illuminate\Http\Request;
 
 class MainController extends BaseController
 {
+    public $filterService;
     /**
-     * Handle the incoming request.
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
+     * @param FilterService $filterService
+     */
+    public function __construct(FilterService $filterService)
+    {
+        $this->filterService = $filterService;
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return object|false
      */
     public function index(Request $request)
     {
-        FilterService::setIsMain(true);
-        $filterItem = FilterService::getFilterItem();
-        $filterValue = FilterService::getFilterValue();
-
-        return view('index', [
-            'filterItem' => $filterItem,
-            'filterValue' => $filterValue,
+        return $this->renderView('index', [
+            'filterSection' => $this->filterService->getFilterSection(true),
+            'filterSectionItem' => $this->filterService->getFilterSectionItem(true),
         ]);
     }
 }

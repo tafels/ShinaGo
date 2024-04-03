@@ -6,46 +6,14 @@ use App\Models\Characteristic;
 
 class CharacteristicService extends BaseService
 {
-    private $group_id;
-    public $type_characteristic;
-    public $popular;
-
-    /**
-     * @param $group_id
-     * @return void
-     */
-    public function setGroupId($group_id)
-    {
-        $this->group_id = $group_id;
-    }
-
-    /**
-     * @param $type
-     * @return void
-     */
-    public function setTypeCharacteristic($type)
-    {
-        $this->type_characteristic = $type;
-    }
-
-    /**
-     * @param $popular boolean
-     * @return void
-     */
-    public function setPopular(bool $popular)
-    {
-        $this->popular = $popular;
-    }
-
-    public function getCharacteristic()
+    public function getCharacteristic($groupId = null, $typeCharacteristic = null)
     {
         $builder = Characteristic::where('published', true);
-
-        if (isset($this->group_id)) {
-            $builder->where('group_id', $this->group_id);
+        if ($groupId) {
+            $builder->where('group_id', $groupId);
         }
-        if (isset($this->type_characteristic)) {
-            $builder->where('short_name', $this->type_characteristic);
+        if ($typeCharacteristic) {
+            $builder->where('short_name', $typeCharacteristic);
         }
         $builder = $builder->get();
 
@@ -62,12 +30,9 @@ class CharacteristicService extends BaseService
                             ->orWhere('language', request()->getLocale());
                     });
             }
-
             $item->value = $map->where(['published' => true])->get();
         });
 
         return $builder;
     }
-
-
 }

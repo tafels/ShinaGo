@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Facades\UrlHelper;
+use App\Models\CategoryContent;
+use App\Models\Template;
 
 
 class CategoryService extends BaseService
@@ -13,90 +15,40 @@ class CategoryService extends BaseService
         'asc',
         'desc',
     ];
-
-    public $categoryId = 0;
-    public $view;
-    public $parameters = [];
-
-    /**
-     * @return mixed
-     */
-    public function getCategoryId()
-    {
-        return $this->categoryId;
-    }
-
-    /**
-     * @param mixed $categoryId
-     */
-    public function setCategoryId($categoryId): void
-    {
-        $this->categoryId = $categoryId;
-    }
-
     /**
      * @return array
-     */
-    public function getParameters(): array
-    {
-        return $this->parameters;
-    }
-
-
-    /**
-     * @param string $key
-     * @param array|string $value
-     * @return void
-     */
-    public function setParameters(string $key, $value)
-    {
-        $this->parameters[$key] = $value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getView(): string
-    {
-        return $this->view;
-    }
-
-    /**
-     * @param string $view
-     */
-    public function setView(string $view): void
-    {
-        $this->view = $view;
-    }
-
-    /**
-     * @return bool
      */
     public function initCategory()
     {
         $segments = UrlHelperService::excludeSegmentLocale();
         $Category = app(Category::class);
+        $categoryId = 0;
 
         for ($i = 0; $i < count($segments); $i++) {
-            $categoryId = UrlHelper::searchSlugSegments($Category, $this->getCategoryId(), $segments[$i]);
+            $categoryId = UrlHelper::searchSlugSegments($Category, $categoryId, $segments[$i]);
             if (!$categoryId) break;
-            $this->setCategoryId($categoryId);
         }
+
+        return $this->findView($categoryId);
     }
 
-    public function getCategoryUrlById($categoryId)
+    public function getFullUrlCategory(Category $category)
     {
         $urlCategory = collect([]);
 
-        $category = Category::find($categoryId)->getContent()->where('language', request()->getLocale())->first();
-        $urlCategory->push($category['slug']);
+        /** @var CategoryContent $content */
+        $content = $category->getContentLocale();
+        $urlCategory->push($content->getSlug());
 
         do {
-            $parentCategory = Category::find($categoryId)->getParentCategory()->first();
+            /** @var Category $parentCategory */
+            $parentCategory = $category->getParentCategory();
             if ($parentCategory) {
-                $categoryId = $parentCategory['id'];
-                $content = $parentCategory->getContent()->where('language', request()->getLocale())->first();
-                $urlCategory->push($content['slug']);
+                $category = $parentCategory;
+
+                /** @var CategoryContent $content */
+                $content = $parentCategory->getContentLocale();
+                $urlCategory->push($content->getSlug());
             }
         } while ($parentCategory);
 
@@ -104,13 +56,15 @@ class CategoryService extends BaseService
         return UrlHelperService::routeUrl('initCategory', ['category' => $urlCategory], null, false);
     }
 
-    public function findView()
+    public function findView($categoryId)
     {
-        $template = Category::find($this->getCategoryId())->getTemplate;
+        /** @var Template $template */
+        $template = Category::find($categoryId)->getTemplate;
 
-        $this->setView('category.' . $template->name);
-        $this->setParameters('template', json_decode($template->params));
+        return [
+            'categoryId' => $categoryId,
+            'template' => 'category.' . $template->getName(),
+            'parameters' => $template->getParams()
+        ];
     }
-
-
 }

@@ -25,4 +25,11 @@ class LocalizationService extends BaseService
 
         return "";
     }
+
+    public function getSelectLocaleRoute()
+    {
+
+        dd(Route::getCurrentRoute());
+        return request();
+    }
 }

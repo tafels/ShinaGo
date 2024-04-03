@@ -22,19 +22,20 @@
 
 {{--                        @foreach (MenuService::getMenuType('header') as $menuCategory)--}}
 {{--                        <li class="nav-item dropdown">--}}
-{{--                            <a class="nav-link dropdown-toggle" href="{{$menuCategory['url']}}" id="navbarDropdownMenuLink" role="button"--}}
+{{--                            <a class="nav-link dropdown-toggle" href="{{ $menuCategory['url'] }}" id="navbarDropdownMenuLink" role="button"--}}
 {{--                               data-bs-toggle="dropdown" aria-expanded="false">--}}
-{{--                                {{$menuCategory['title']}}--}}
+{{--                                {{ $menuCategory['title'] }}--}}
 {{--                            </a>--}}
 {{--                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">--}}
 {{--                                @foreach($menuCategory['childMenu'] as $menuChild)--}}
-{{--                                <li><a class="dropdown-item" href="{{$menuChild['url']}}">{{$menuChild['title']}}</a></li>--}}
+{{--                                <li><a class="dropdown-item" href="{{ $menuChild['url']}} ">{{ $menuChild['title'] }}</a></li>--}}
 {{--                                @endforeach--}}
 {{--                            </ul>--}}
 {{--                        </li>--}}
 {{--                        @endforeach--}}
                     </ul>
                 </div>
+                @include('modules.localization.select_locale')
             </div>
         </nav>
         </nav>

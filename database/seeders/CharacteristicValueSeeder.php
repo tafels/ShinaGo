@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\CharacteristicValueGroup;
+use App\Models\CharacteristicValue;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CharacteristicValueGroupSeeder extends Seeder
+class CharacteristicValueSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -1414,7 +1414,7 @@ class CharacteristicValueGroupSeeder extends Seeder
         $columns[] = ['characteristic_id' => 7];
 
         foreach ($columns as $colum => $dataTable) {
-            DB::table((new CharacteristicValueGroup())->getTable())->insert($dataTable);
+            DB::table((new CharacteristicValue())->getTable())->insert($dataTable);
         }
 
     }

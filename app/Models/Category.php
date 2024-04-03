@@ -2,60 +2,67 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Category extends Model
 {
-    use HasFactory;
-
-    /**
-     * @return string
-     */
     protected $table = 'tbl_categories';
 
-    /**
-     * @return string
-     */
     public function getTable()
     {
         return $this->table;
     }
 
+    public function getTemplateId()
+    {
+        return $this->template_id;
+    }
+
     /**
      * @return HasOne
      */
-    public function getTemplate()
+    public function getTemplate(): HasOne
     {
         return $this->hasOne(Template::class, 'id', 'template_id');
     }
 
-    /**
-     * @return HasOne
-     */
     public function getParentCategory()
     {
-        return $this->hasOne(Category::class, 'id','parent_id');
+        return $this->hasOne(Category::class, 'id','parent_id')->first();
     }
 
     /**
      * @return HasMany
      */
-    public function getChildCategory()
+    public function getChildCategory(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id')->with('getChildCategory');
     }
 
+    public function getContentLocale($locale = null)
+    {
+
+        if(!$locale){
+            $locale = request()->getLocale();
+        }
+
+        return $this->hasOne(CategoryContent::class)->where('language', $locale)->first();
+    }
+
     /**
      * @return HasMany
      */
-    public function getContent()
+    public function getContent(): HasMany
     {
         return $this->hasMany(CategoryContent::class);
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
 
 
 }

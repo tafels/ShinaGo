@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\CharacteristicValueGroup;
+use App\Models\CharacteristicValue;
 use App\Models\CharacteristicValueLanguage;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,8 +17,8 @@ class CreateCharacteristicValueLanguagesTable extends Migration
     {
         Schema::create((new CharacteristicValueLanguage())->getTable(), function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id')->unsigned();
-            $table->foreign('parent_id')->references('id')->on((new CharacteristicValueGroup())->getTable());
+            $table->integer('characteristic_value_id')->unsigned();
+            $table->foreign('characteristic_value_id','parent_id')->references('id')->on((new CharacteristicValue())->getTable());
             $table->string('name', 256)->nullable();
             $table->string('slug', 256)->nullable();
             $table->string('language',5)->default('*');

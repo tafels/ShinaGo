@@ -21995,7 +21995,7 @@ __webpack_require__.r(__webpack_exports__);
       $.each(this.filterItems, function (keyGroup, group) {
         $.each(group, function (keyItem, valueItem) {
           if ($.isArray(self.selectedFilter[keyItem])) {
-            self.applyItem[keyItem] = self.selectedFilter[keyItem].length > 0 ? true : false;
+            self.applyItem[keyItem] = self.selectedFilter[keyItem].length > 0;
             self.infoTab[keyItem] = self.selectedFilter[keyItem].length > 0 ? '(' + self.selectedFilter[keyItem].length + ')' : '';
           } else {
             self.filterValue[keyItem].value.filter(function (value) {
@@ -22013,7 +22013,7 @@ __webpack_require__.r(__webpack_exports__);
       setTimeout(function () {
         $.each(group, function (keyItem, valueItem) {
           if ($.isArray(self.selectedFilter[keyItem])) {
-            self.applyItem[keyItem] = self.selectedFilter[keyItem].length > 0 ? true : false;
+            self.applyItem[keyItem] = self.selectedFilter[keyItem].length > 0;
             self.infoTab[keyItem] = self.selectedFilter[keyItem].length > 0 ? '(' + self.selectedFilter[keyItem].length + ')' : '';
           } else if (keyItem == key) {
             self.infoTab[keyItem] = titleItem;
@@ -22226,51 +22226,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [$props.filterGroup == keyItems ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(items, function (item) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["filter__item-tab", {
-          open: $data.filterOpen === item.short_name
+          open: $data.filterOpen === item.shortName
         }]),
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           width: $data.styleClass.wItemTab + '%'
         })
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         onClick: function onClick($event) {
-          return $options.openTab(item.short_name);
+          return $options.openTab(item.shortName);
         }
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         "class": "filter__item-title",
         innerHTML: item.title
       }, null, 8 /* PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         "class": "filter__item-select",
-        innerHTML: $data.infoTab[item.short_name]
-      }, null, 8 /* PROPS */, _hoisted_5), _hoisted_6])], 8 /* PROPS */, _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [$props.filterValue[item.short_name] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [$props.filterValue[item.short_name].popular ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [_hoisted_10, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.filterValue[item.short_name].popular, function (value) {
+        innerHTML: $data.infoTab[item.shortName]
+      }, null, 8 /* PROPS */, _hoisted_5), _hoisted_6])], 8 /* PROPS */, _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [$props.filterValue[item.shortName] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [$props.filterValue[item.shortName].popular ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [_hoisted_10, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.filterValue[item.shortName].popular, function (value) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
           "class": "d-none",
           "onUpdate:modelValue": function onUpdateModelValue($event) {
-            return $props.selectedFilter[item.short_name] = $event;
+            return $props.selectedFilter[item.shortName] = $event;
           },
           type: item.typeInput,
           id: 'filter-pop-' + value.slug,
           value: value.slug,
           onClick: function onClick($event) {
-            return $options.selectItem(item.short_name, value.name);
+            return $options.selectItem(item.shortName, value.name);
           }
-        }, null, 8 /* PROPS */, _hoisted_11), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelDynamic, $props.selectedFilter[item.short_name]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        }, null, 8 /* PROPS */, _hoisted_11), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelDynamic, $props.selectedFilter[item.shortName]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
           "for": 'filter-pop-' + value.slug,
           "class": "filter__option-label",
           innerHTML: value.name
         }, null, 8 /* PROPS */, _hoisted_12)], 64 /* STABLE_FRAGMENT */);
-      }), 256 /* UNKEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.filterValue[item.short_name].value ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [$props.filterValue[item.short_name].popular ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, _hoisted_16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.filterValue[item.short_name].value, function (value) {
+      }), 256 /* UNKEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.filterValue[item.shortName].value ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [$props.filterValue[item.shortName].popular ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, _hoisted_16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.filterValue[item.shortName].value, function (value) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
           "class": "d-none",
           "onUpdate:modelValue": function onUpdateModelValue($event) {
-            return $props.selectedFilter[item.short_name] = $event;
+            return $props.selectedFilter[item.shortName] = $event;
           },
           type: item.typeInput,
           id: 'filter-' + value.slug,
           value: value.slug,
           onClick: function onClick($event) {
-            return $options.selectItem(item.short_name, value.name);
+            return $options.selectItem(item.shortName, value.name);
           }
-        }, null, 8 /* PROPS */, _hoisted_17), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelDynamic, $props.selectedFilter[item.short_name]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        }, null, 8 /* PROPS */, _hoisted_17), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelDynamic, $props.selectedFilter[item.shortName]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
           "for": 'filter-' + value.slug,
           "class": "filter__option-label",
           innerHTML: value.name
@@ -22278,10 +22278,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), 256 /* UNKEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "cancel",
         onClick: function onClick($event) {
-          return $options.cast(item.short_name);
+          return $options.cast(item.shortName);
         },
         innerHTML: _ctx.$t('cast')
-      }, null, 8 /* PROPS */, _hoisted_20), item.multiple && $data.applyItem[item.short_name] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      }, null, 8 /* PROPS */, _hoisted_20), item.multiple && $data.applyItem[item.shortName] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: 0,
         "class": "save",
         onClick: _cache[0] || (_cache[0] = function ($event) {
@@ -22295,7 +22295,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $options.close();
         }),
         innerHTML: _ctx.$t('filter_button_close')
-      }, null, 8 /* PROPS */, _hoisted_22))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.filterOpen === item.short_name]])], 6 /* CLASS, STYLE */);
+      }, null, 8 /* PROPS */, _hoisted_22))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.filterOpen === item.shortName]])], 6 /* CLASS, STYLE */);
     }), 256 /* UNKEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "filter__item-tab-button button_green",
       onClick: _cache[2] || (_cache[2] = function ($event) {
@@ -27333,7 +27333,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.filter__main-content[data-v-4f51dc60] {\n    position: relative;\n    -moz-user-select: none;\n    -webkit-user-select: none;\n            user-select: none;\n}\n.filter__item-tab[data-v-4f51dc60] {\n    height: 50px;\n    border-left: 1px solid #e7e7e7;\n    border-right: 1px solid #e7e7e7;\n    background-color: #ffffff;\n}\n.filter__item-tab[data-v-4f51dc60]:first-child {\n    border-left: none;\n}\n.filter__item-tab[data-v-4f51dc60]:last-child {\n    border-right: none;\n}\n.filter__item-tab-button .filter__item-title[data-v-4f51dc60] {\n    padding: 0;\n    text-align: center;\n}\n.filter__item-block[data-v-4f51dc60] {\n    position: relative;\n    cursor: pointer;\n}\n.filter__item-block[data-v-4f51dc60]:hover {\n    background-color: #f6f6f6;\n}\n.filter__item-tab .icon-button[data-v-4f51dc60] {\n    width: 13px;\n    top: calc(50% - 7px);\n    color: #c7c6c6;\n    right: 8px;\n    position: absolute;\n    transition-duration: 0.1s;\n    transition-property: transform;\n}\n.filter__item-tab.open .icon-button[data-v-4f51dc60] {\n    color: #a19f9f;\n    transform: rotate(180deg);\n    -webkit-transform: rotate(180deg);\n}\n.filter__item-title[data-v-4f51dc60] {\n    color: #333;\n    cursor: pointer;\n    font-weight: 700;\n    line-height: 50px;\n    font-size: 13px;\n    padding: 0 25px 0 7px;\n    position: relative;\n    transition: line-height .3s, color .3s;\n}\n.filter__item-select[data-v-4f51dc60] {\n    max-width: 40px;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    position: absolute;\n    right: 27px;\n    top: 17px;\n    font-weight: bold;\n    text-align: right;\n    font-size: 11px;\n    color: #7e7e7e;\n}\n.filter__wrap[data-v-4f51dc60],\n.filter__select-item[data-v-4f51dc60] {\n    max-height: 350px;\n}\n.filter__wrap[data-v-4f51dc60] {\n    left: 0;\n    right: 0;\n    background-color: #dddcdc;\n    position: absolute;\n}\n.filter__select-item[data-v-4f51dc60] {\n    padding-bottom: 1px;\n    border-top: 1px solid #dddcdc;\n    overflow: auto;\n}\n.filter__select-item[data-v-4f51dc60]::-webkit-scrollbar {\n    width: 7px;\n    border: 2px;\n    background-color: #eeeeee;\n}\n.filter__select-item[data-v-4f51dc60]::-webkit-scrollbar-thumb {\n    background-color: #008906;\n}\n.filter__select-button.active[data-v-4f51dc60] {\n    height: 50px;\n    padding: 0 6px;\n    position: relative;\n    background-color: #dddcdc;\n}\n.filter__select-button div[data-v-4f51dc60] {\n    height: 100%;\n    text-align: center;\n    text-transform: uppercase;\n    font-weight: bold;\n    color: #8d8d8d;\n    cursor: pointer;\n    line-height: 50px;\n}\n.filter__wrap-title[data-v-4f51dc60] {\n    height: 25px;\n    margin-top: 10px;\n}\n.filter__wrap-title span[data-v-4f51dc60] {\n    font-weight: bold;\n}\n.filter__option-label[data-v-4f51dc60],\n.filter__select-button div[data-v-4f51dc60] {\n    width: calc(135px - 0.99%);\n}\n.filter__option-label[data-v-4f51dc60] {\n    height: 50px;\n    border-radius: 2px;\n    font-weight: bold;\n    line-height: 50px;\n    text-align: center;\n    margin: 10px .7% 0 .7%;\n    cursor: pointer;\n    background-color: #ffffff;\n}\ninput:checked + label[data-v-4f51dc60] {\n    color: #fff;\n    background-color: #1560ac;\n}\n.filter__option-label[data-v-4f51dc60]:hover {\n    color: #fff;\n    background-color: #3675b4;\n}\ninput:checked + label.filter__option-label[data-v-4f51dc60]:hover,\n.filter__option-label[data-v-4f51dc60]:active {\n    color: #fff;\n    background-color: #0d5399;\n}\n.filter__option-label[data-v-4f51dc60]:active {\n    transform: translateY(1px);\n}\n@media screen and (min-width: 992px) {\n.filter__item-tab[data-v-4f51dc60] {\n        height: 62px;\n}\n.filter__item-title[data-v-4f51dc60] {\n        font-size: 14px;\n        padding: 0 25px 0 25px;\n}\n.filter__item-select[data-v-4f51dc60] {\n        max-width: 60px;\n        right: 33px;\n        top: 20px;\n        font-size: 14px;\n}\n.filter__item-tab .icon-button[data-v-4f51dc60] {\n        top: calc(50% - 6px);\n}\n.filter__item-title[data-v-4f51dc60] {\n        line-height: 60px;\n}\n.filter__wrap-title[data-v-4f51dc60] {\n        height: 36px;\n        margin-top: 20px;\n}\n.filter__option-label[data-v-4f51dc60],\n    .filter__select-button div[data-v-4f51dc60] {\n        width: calc(151px - 0.99%);\n}\n.filter__option-label[data-v-4f51dc60] {\n        margin: 20px .7% 0 .7%;\n}\n}\n@media screen and (min-width: 1200px) {\n.filter__option-label[data-v-4f51dc60],\n    .filter__select-button div[data-v-4f51dc60] {\n        width: calc(157px - 1.204%);\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.filter__main-content[data-v-4f51dc60] {\n    position: relative;\n    -moz-user-select: none;\n    -webkit-user-select: none;\n            user-select: none;\n}\n.filter__item-tab[data-v-4f51dc60] {\n    height: 50px;\n    border-left: 1px solid #e7e7e7;\n    border-right: 1px solid #e7e7e7;\n    background-color: #ffffff;\n}\n.filter__item-tab[data-v-4f51dc60]:first-child {\n    border-left: none;\n}\n.filter__item-tab[data-v-4f51dc60]:last-child {\n    border-right: none;\n}\n.filter__item-tab-button .filter__item-title[data-v-4f51dc60] {\n    padding: 0;\n    text-align: center;\n}\n.filter__item-block[data-v-4f51dc60] {\n    position: relative;\n    cursor: pointer;\n}\n.filter__item-block[data-v-4f51dc60]:hover {\n    background-color: #f6f6f6;\n}\n.filter__item-tab .icon-button[data-v-4f51dc60] {\n    width: 13px;\n    top: calc(50% - 7px);\n    color: #c7c6c6;\n    right: 8px;\n    position: absolute;\n    transition-duration: 0.1s;\n    transition-property: transform;\n}\n.filter__item-tab.open .icon-button[data-v-4f51dc60] {\n    color: #a19f9f;\n    transform: rotate(180deg);\n    -webkit-transform: rotate(180deg);\n}\n.filter__item-title[data-v-4f51dc60] {\n    color: #333;\n    cursor: pointer;\n    font-weight: 700;\n    line-height: 50px;\n    font-size: 13px;\n    padding: 0 25px 0 7px;\n    position: relative;\n    transition: line-height .3s, color .3s;\n}\n.filter__item-select[data-v-4f51dc60] {\n    max-width: 40px;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    position: absolute;\n    right: 27px;\n    top: 17px;\n    font-weight: bold;\n    text-align: right;\n    font-size: 11px;\n    color: #7e7e7e;\n}\n.filter__wrap[data-v-4f51dc60],\n.filter__select-item[data-v-4f51dc60] {\n    max-height: 350px;\n}\n.filter__wrap[data-v-4f51dc60] {\n    left: 0;\n    right: 0;\n    background-color: #dddcdc;\n    position: absolute;\n}\n.filter__select-item[data-v-4f51dc60] {\n    padding-bottom: 1px;\n    border-top: 1px solid #dddcdc;\n    overflow: auto;\n}\n.filter__select-item[data-v-4f51dc60]::-webkit-scrollbar {\n    width: 7px;\n    border: 2px;\n    background-color: #eeeeee;\n}\n.filter__select-item[data-v-4f51dc60]::-webkit-scrollbar-thumb {\n    background-color: #008906;\n}\n.filter__select-button.active[data-v-4f51dc60] {\n    height: 50px;\n    padding: 0 6px;\n    position: relative;\n    background-color: #dddcdc;\n}\n.filter__select-button div[data-v-4f51dc60] {\n    height: 100%;\n    text-align: center;\n    text-transform: uppercase;\n    font-weight: bold;\n    color: #8d8d8d;\n    cursor: pointer;\n    line-height: 50px;\n}\n.filter__wrap-title[data-v-4f51dc60] {\n    height: 25px;\n    margin-top: 10px;\n}\n.filter__wrap-title span[data-v-4f51dc60] {\n    font-weight: bold;\n}\n.filter__option-label[data-v-4f51dc60],\n.filter__select-button div[data-v-4f51dc60] {\n    width: calc(135px - 0.99%);\n}\n.filter__option-label[data-v-4f51dc60] {\n    height: 50px;\n    border-radius: 2px;\n    font-weight: bold;\n    line-height: 50px;\n    text-align: center;\n    margin: 10px .7% 0 .7%;\n    cursor: pointer;\n    background-color: #ffffff;\n}\ninput:checked + label[data-v-4f51dc60] {\n    color: #fff;\n    background-color: #1560ac;\n}\n.filter__option-label[data-v-4f51dc60]:hover {\n    color: #fff;\n    background-color: #3675b4;\n}\ninput:checked + label.filter__option-label[data-v-4f51dc60]:hover,\n.filter__option-label[data-v-4f51dc60]:active {\n    color: #fff;\n    background-color: #0d5399;\n}\n.filter__option-label[data-v-4f51dc60]:active {\n    transform: translateY(1px);\n}\n@media screen and (min-width: 992px) {\n.filter__item-tab[data-v-4f51dc60] {\n        height: 60px;\n}\n.filter__item-title[data-v-4f51dc60] {\n        font-size: 14px;\n        padding: 0 25px 0 25px;\n}\n.filter__item-select[data-v-4f51dc60] {\n        max-width: 60px;\n        right: 33px;\n        top: 20px;\n        font-size: 14px;\n}\n.filter__item-tab .icon-button[data-v-4f51dc60] {\n        top: calc(50% - 6px);\n}\n.filter__item-title[data-v-4f51dc60] {\n        line-height: 60px;\n}\n.filter__wrap-title[data-v-4f51dc60] {\n        height: 36px;\n        margin-top: 20px;\n}\n.filter__option-label[data-v-4f51dc60],\n    .filter__select-button div[data-v-4f51dc60] {\n        width: calc(151px - 0.99%);\n}\n.filter__option-label[data-v-4f51dc60] {\n        margin: 20px .7% 0 .7%;\n}\n}\n@media screen and (min-width: 1200px) {\n.filter__option-label[data-v-4f51dc60],\n    .filter__select-button div[data-v-4f51dc60] {\n        width: calc(157px - 1.204%);\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

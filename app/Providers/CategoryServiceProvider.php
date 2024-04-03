@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Services\UrlHelperService;
+use App\Services\CategoryService;
 use Illuminate\Support\ServiceProvider;
 
-class  UrlHelperServiceProvider extends ServiceProvider
+class CategoryServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -14,7 +14,7 @@ class  UrlHelperServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('urlHelper', UrlHelperService::class);
+        $this->app->singleton('CategoryService',CategoryService::class);
     }
 
     /**

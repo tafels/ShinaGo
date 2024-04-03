@@ -188,6 +188,7 @@ return [
         App\Providers\CharacteristicServiceProvider::class,
         App\Providers\FilterServiceProvider::class,
         App\Providers\MenuServiceProvider::class,
+        App\Providers\CategoryServiceProvider::class,
     ],
 
     /*

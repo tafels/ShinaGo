@@ -3,42 +3,42 @@
         <template v-for="(items, keyItems) in filterItems">
             <div class="filter__main-content d-flex" v-if="filterGroup == keyItems">
                 <div v-for="item in items" class="filter__item-tab" :style="{ width: styleClass.wItemTab + '%' }"
-                     :class="{open : filterOpen === item.short_name}">
-                    <div @click="openTab(item.short_name)">
+                     :class="{open : filterOpen === item.shortName}">
+                    <div @click="openTab(item.shortName)">
                         <div class="filter__item-block">
                             <span class="filter__item-title" v-html="item.title"></span>
-                            <span class="filter__item-select" v-html="infoTab[item.short_name]"></span>
+                            <span class="filter__item-select" v-html="infoTab[item.shortName]"></span>
                             <div class="icon-button icon-arrow"></div>
                         </div>
                     </div>
-                    <div class="filter__wrap" v-show="filterOpen === item.short_name">
-                        <div class="filter__select-item" v-if="filterValue[item.short_name]">
-                            <div class="popular" v-if="filterValue[item.short_name].popular">
+                    <div class="filter__wrap" v-show="filterOpen === item.shortName">
+                        <div class="filter__select-item" v-if="filterValue[item.shortName]">
+                            <div class="popular" v-if="filterValue[item.shortName].popular">
                                 <div class="filter__wrap-title d-flex"><span class="m-auto">Популярні</span></div>
-                                <template v-for="value in filterValue[item.short_name].popular">
-                                    <input class="d-none" v-model="selectedFilter[item.short_name]"
+                                <template v-for="value in filterValue[item.shortName].popular">
+                                    <input class="d-none" v-model="selectedFilter[item.shortName]"
                                            :type="item.typeInput" :id="'filter-pop-'+value.slug"
                                            :value="value.slug"
-                                           @click="selectItem(item.short_name, value.name)">
+                                           @click="selectItem(item.shortName, value.name)">
                                     <label :for="'filter-pop-'+value.slug" class="filter__option-label"
                                            v-html="value.name"></label>
                                 </template>
                             </div>
-                            <div class="all" v-if="filterValue[item.short_name].value">
-                                <div class="filter__wrap-title d-flex" v-if="filterValue[item.short_name].popular">
+                            <div class="all" v-if="filterValue[item.shortName].value">
+                                <div class="filter__wrap-title d-flex" v-if="filterValue[item.shortName].popular">
                                     <span class="m-auto">Усі</span></div>
-                                <template v-for="value in filterValue[item.short_name].value">
-                                    <input class="d-none" v-model="selectedFilter[item.short_name]"
+                                <template v-for="value in filterValue[item.shortName].value">
+                                    <input class="d-none" v-model="selectedFilter[item.shortName]"
                                            :type="item.typeInput" :id="'filter-'+value.slug" :value="value.slug"
-                                           @click="selectItem(item.short_name, value.name)">
+                                           @click="selectItem(item.shortName, value.name)">
                                     <label :for="'filter-'+value.slug" class="filter__option-label"
                                            v-html="value.name"></label>
                                 </template>
                             </div>
                         </div>
                         <div class="filter__select-button active d-flex d-flex justify-content-between">
-                            <div class="cancel" @click="cast(item.short_name)" v-html="$t('cast')"></div>
-                            <div v-if="item.multiple && applyItem[item.short_name]" class="save"
+                            <div class="cancel" @click="cast(item.shortName)" v-html="$t('cast')"></div>
+                            <div v-if="item.multiple && applyItem[item.shortName]" class="save"
                                  @click="apply()" v-html="$t('apply')"></div>
                             <div v-else="item.multiple" class="save" @click="close()"
                                  v-html="$t('filter_button_close')"></div>
@@ -101,7 +101,7 @@ export default {
             $.each(this.filterItems, function (keyGroup, group) {
                 $.each(group, function (keyItem, valueItem) {
                     if ($.isArray(self.selectedFilter[keyItem])) {
-                        self.applyItem[keyItem] = (self.selectedFilter[keyItem].length > 0) ? true : false;
+                        self.applyItem[keyItem] = (self.selectedFilter[keyItem].length > 0);
                         self.infoTab[keyItem] = (self.selectedFilter[keyItem].length > 0) ? '(' + self.selectedFilter[keyItem].length + ')' : '';
                     } else {
                         self.filterValue[keyItem].value.filter(
@@ -122,7 +122,7 @@ export default {
             setTimeout(function () {
                 $.each(group, function (keyItem, valueItem) {
                     if ($.isArray(self.selectedFilter[keyItem])) {
-                        self.applyItem[keyItem] = (self.selectedFilter[keyItem].length > 0) ? true : false;
+                        self.applyItem[keyItem] = (self.selectedFilter[keyItem].length > 0);
                         self.infoTab[keyItem] = (self.selectedFilter[keyItem].length > 0) ? '(' + self.selectedFilter[keyItem].length + ')' : '';
                     } else if (keyItem == key) {
                         self.infoTab[keyItem] = titleItem;
@@ -311,7 +311,7 @@ input:checked + label.filter__option-label:hover,
 
 @media screen and (min-width: 992px) {
     .filter__item-tab {
-        height: 62px;
+        height: 60px;
     }
 
     .filter__item-title {

@@ -5,182 +5,103 @@ namespace App\Services;
 use App\Models\CategoryContent;
 use App\Models\Characteristic;
 use App\Models\CharacteristicValueLanguage;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class FilterService extends BaseService
 {
-    private $is_main;
-    private $group_id;
-    private $data;
-    public $type_filter;
-
     /**
-     * @return bool
+     * @return mixed
      */
-    public function getIsMain(): bool
+    public function getFilterSection($isMainFilter = false, $typeFilter = null)
     {
-        return $this->is_main;
-    }
-
-    /**
-     * @param bool $is_main
-     * @return void
-     */
-    public function setIsMain(bool $is_main = false)
-    {
-        $this->is_main = $is_main;
-    }
-
-    public function getGroupId()
-    {
-        return $this->group_id;
-    }
-
-    public function setGroupId($group_id)
-    {
-        $this->group_id = $group_id;
-    }
-
-    /**
-     * @param $type
-     * @return void
-     */
-    public function setTypeFilter($type)
-    {
-        $this->type_filter = $type;
-    }
-
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    private function getRouteUrl($category, $any = [], $query = null, $absolute = true)
-    {
-        if (!empty($any)) {
-            return UrlHelperService::routeUrl('initCategoryAny', ['category' => $category, 'any' => $any], $query, $absolute);
-        } else {
-            return UrlHelperService::routeUrl('initCategory', ['category' => $category], $query, $absolute);
+        if (!$this->isActiveCache()) {
+            return $this->getSectionByCharacteristic($isMainFilter, $typeFilter);
         }
-    }
 
-    public function getFilterItem()
-    {
-        $cacheKey = 'filterItem-' . $this->getIsMain() . '-' . request()->getLocale();
+        $cacheKey = 'filterItem-' . $isMainFilter . '-' . request()->getLocale();
 
-        return Cache::remember($cacheKey, now()->addMinute(5), function () {
-            return $this->getFilterType();
+        return Cache::remember($cacheKey, now()->addMinute(5), function () use ($isMainFilter, $typeFilter) {
+            return $this->getSectionByCharacteristic($isMainFilter, $typeFilter);
         });
     }
 
-    public function getFilterValue()
+    /**
+     * @return mixed
+     */
+    public function getFilterSectionItem($isMainFilter = false, $typeFilter = null)
     {
-//        $cacheKey = 'filterValue-' . $this->getIsMain() . '-' . request()->getLocale();
+        if (!$this->isActiveCache()) {
+            return $this->getSectionItemByCharacteristic($isMainFilter, $typeFilter);
+        }
 
-//        return Cache::remember($cacheKey, now()->addMinute(5), function () {
-            return $this->getValue();
-//        });
-    }
+        $cacheKey = 'filterValue-' . $isMainFilter . '-' . request()->getLocale();
 
-    public function getFilterGroupValue()
-    {
-        return $this->getValue();
-    }
-
-    public function getFilterTypeValue()
-    {
-        return $this->getValue();
-    }
-
-    public function getGroupFilterType()
-    {
-        $filter = Characteristic::where('published', true)
-            ->where('group_id', $this->getGroupId())
-            ->get();
-
-        $collection = $filter->map(function ($item, $key) {
-            return collect([
-                'slug' => $item->slug,
-                'short_name' => $item->short_name,
-                'multiple' => $item->multiple,
-                'typeInput' => ($item->multiple) ? 'checkbox' : 'radio',
-                'ordering' => $item->ordering_slug,
-            ]);
+        return Cache::remember($cacheKey, now()->addMinute(5), function () use ($isMainFilter, $typeFilter) {
+            return $this->getSectionItemByCharacteristic($isMainFilter, $typeFilter);
         });
-        $collection = $collection->sortBy('ordering');
-        $collection->all();
-
-        return $collection;
-
     }
 
-    public function getFilterType()
+    /**
+     * @return mixed
+     */
+    public function getSectionByCharacteristic($isMainFilter)
     {
         $builder = Characteristic::where('published', true)->get();
 
-        if ($this->is_main) {
+        if ($isMainFilter) {
             $builder = $builder->where('is_main', true)->sortBy('ordering_main');
         } else {
             $builder = $builder->sortBy('ordering');
         }
 
         $collection = $builder->map(function ($item, $key) {
+            /** @var Characteristic $item */
             return [
-                'title' => trans('filter.type_' . $item->short_name),
-                'slug' => $item->slug,
-                'short_name' => $item->short_name,
-                'typeInput' => ($item->multiple) ? 'checkbox' : 'radio',
-                'group_id' => $item->group_id,
+                'title' => trans('filter.type_' . $item->getShortName()),
+                'slug' => $item->getSlug(),
+                'shortName' => $item->getShortName(),
+                'typeInput' => ($item->getMultiple()) ? 'checkbox' : 'radio',
+                'groupId' => $item->getGroupId(),
             ];
         });
 
         $collection = $collection->mapToGroups(function ($item) {
-            return [$item['group_id'] => $item];
+            return [$item['groupId'] => $item];
         });
 
         $collection = $collection->map(function ($item) {
-            return $item->keyBy('short_name');
+            return $item->keyBy('shortName');
         });
 
         return $collection;
     }
 
-    /**
-     * @return object
-     */
-    public function getValue()
+    public function getSectionItemByCharacteristic($isMainFilter, $typeFilter)
     {
         $builder = Characteristic::where('published', true)
-            ->with(['getCharacteristicGroup' => function ($q) {
+            ->with(['getCharacteristicValues' => function ($q) {
                 $q->where('published', true)
-                    ->with(['getCharacteristicGroupToLanguage']);
+                    ->with(['getCharacteristicValueByLocale']);
             }
             ])->get();
 
-        if ($this->is_main) {
+        if ($isMainFilter) {
             $builder = $builder->where('is_main', true);
         }
-        if ($this->type_filter) {
-            $builder = $builder->where('short_name', $this->type_filter);
+        if ($typeFilter) {
+            $builder = $builder->where('short_name', $typeFilter);
         }
 
-        $grouped = $builder->groupBy('short_name');
+        $characteristicByGroup = $builder->groupBy('short_name');
 
-        $multiplied = $grouped->map(function ($item) {
-            $group = $item->first()->getCharacteristicGroup;
+        $itemByGroups = $characteristicByGroup->map(function ($item) {
+            $characteristicValues = $item->first()->getCharacteristicValues;
 
             $merged = collect([]);
 
-            foreach ($group as $itemGroup) {
-                $characteristic = $itemGroup->getCharacteristicGroupToLanguage;
-                if ($itemGroup->popular) {
+            foreach ($characteristicValues as $itemValue) {
+                $characteristic = $itemValue->getCharacteristicValueByLocale;
+                if ($itemValue->getPopular()) {
                     $merged = $merged->mergeRecursive(['popular' => [$characteristic]]);
                 }
                 $merged = $merged->mergeRecursive(['value' => [$characteristic]]);
@@ -189,118 +110,17 @@ class FilterService extends BaseService
             return collect($merged);
         });
 
-        return $multiplied;
+        return $itemByGroups;
     }
 
-    public function createUrl($request)
-    {
-        $this->setGroupId($request->get('params')['groupFilter']);
-
-        $groupItem = $this->getGroupFilterType();
-
-        $category = CategoryContent::where('category_id', $this->getGroupId())
-            ->where('language', request()->getLocale())
-            ->first();
-
-        $valueFilter = $request->get('params')['valueFilter'];
-
-        $params = collect($valueFilter)->reject(function ($item) {
-            return empty($item);
-        });
-
-        $arrSlugs = [
-            'path' => [],
-            'query' => []
-        ];
-
-        foreach ($groupItem as $item) {
-            if (!$params->has($item->get('short_name'))) {
-                continue;
-            }
-
-            $key = $item->get('short_name');
-
-            if (!$item->get('multiple')) {
-                $arrSlugs['path'][] = $params->get($key);
-            } else {
-                if (count($params->get($key)) > 1) {
-                    $arrSlugs['query'][$item->get('slug')] = $params->get($key);
-                } else {
-                    $arrSlugs['path'][] = current($params->get($key));
-                }
-            }
-        }
-
-        return $this->getRouteUrl($category->slug, $arrSlugs['path'], $arrSlugs['query']);
-    }
-
-    private function searchCategory($segments)
-    {
-        $category = CategoryContent::where('slug', array_shift($segments))
-            ->where('language', request()->getLocale())
-            ->first();
-
-        if (is_null($category)) {
-            abort(404);
-        }
-
-        return $category;
-    }
-
-    private function getSegmentUrl()
-    {
-        return UrlHelperService::excludeSegmentLocale(request()->segments());
-    }
-
-    private function getParameterUrl()
-    {
-        $parameters = Characteristic::whereIn('slug', request()->query->keys())
-            ->where('published', true)
-            ->where('group_id', $this->getGroupId())
-            ->doesntHave('getCharacteristicGroup')
-            ->get()
-            ->sortBy('ordering_slug');
-
-        $parameters->map(function ($item, $key) use ($parameters) {
-            if (request()->query->get($item->slug)) {
-                $value = request()->query->get($item->slug);
-                $paramsCharacteristic = json_decode($item->params);
-                if (isset($paramsCharacteristic->explode)) {
-                    $value = explode($paramsCharacteristic->explode, $value);
-                    sort($value);
-                }
-                $parameters->put($item->slug, $value);
-
-            }
-            $parameters->forget($key);
-        });
-
-        if (request()->query->get('sort')) {
-            $sort = request()->query->get('sort');
-            if (in_array($sort, CategoryService::SORT)) {
-                $parameters->put('sort', $sort);
-            }
-        }
-        if (request()->query->get('page')) {
-            if (request()->query->get('page') > 1) {
-                $parameters->put('page', request()->query->get('page'));
-            }
-        }
-
-        return $parameters;
-    }
-
-    /**
-     * @return Collection
-     */
     public function initCategoryFilter()
     {
 
         $segments = $this->getSegmentUrl();
         $category = $this->searchCategory($segments);
-        $this->setGroupId($category->category_id);
+        $groupId = $category->category_id;
 
-        $parameters = $this->getParameterUrl();
+        $parameters = $this->getParameterUrl($groupId);
 
         $segments = collect(request()->query)->flatMap(function ($value, $key) {
             return explode(',', $value);
@@ -312,10 +132,10 @@ class FilterService extends BaseService
                 $qcl->where('language', '*')
                     ->orWhere('language', request()->getLocale());
             })
-            ->with(['getCharacteristicGroup' => function ($qg) {
-                $qg->with(['getCharacteristic' => function ($qc) {
+            ->with(['getCharacteristicGroup' => function ($qg) use ($groupId) {
+                $qg->with(['getCharacteristic' => function ($qc) use ($groupId) {
                     $qc->where('published', true)
-                        ->where('group_id', $this->getGroupId());
+                        ->where('group_id', $groupId);
                 }]);
             }])
             ->get();
@@ -364,6 +184,113 @@ class FilterService extends BaseService
         return $paramsFilter;
     }
 
+    public function createUrl($request)
+    {
+        $params = $request->get('params');
+        $groupID = $params['groupFilter'];
+        $valueFilter = $params['valueFilter'];
+
+        $characteristics = $this->getSectionByCharacteristic();
+
+        $category = CategoryContent::where('category_id', $groupID)
+            ->where('language', request()->getLocale())
+            ->first();
+
+        $params = collect($valueFilter)->reject(function ($item) {
+            return empty($item);
+        });
+
+        $arrSlugs = [
+            'path' => [],
+            'query' => []
+        ];
+
+        foreach ($characteristics as $characteristic) {
+            $shortName = $characteristic->get('short_name');
+
+            if (!$params->has($shortName)) {
+                continue;
+            }
+
+            $groupNameValue = $params->get($shortName);
+
+            if (!$characteristic->get('multiple')) {
+                $arrSlugs['path'][] = $groupNameValue;
+            } else {
+                if (count($groupNameValue) > 1) {
+                    $arrSlugs['query'][$characteristic->get('slug')] = $groupNameValue;
+                } else {
+                    $arrSlugs['path'][] = current($groupNameValue);
+                }
+            }
+        }
+
+        return $this->getRouteUrl($category->slug, $arrSlugs['path'], $arrSlugs['query']);
+    }
+
+    private function getRouteUrl($category, $any = [], $query = null, $absolute = true)
+    {
+        if (!empty($any)) {
+            return UrlHelperService::routeUrl('initCategoryAny', ['category' => $category, 'any' => $any], $query, $absolute);
+        } else {
+            return UrlHelperService::routeUrl('initCategory', ['category' => $category], $query, $absolute);
+        }
+    }
+    private function searchCategory($segments)
+    {
+        $category = CategoryContent::where('slug', array_shift($segments))
+            ->where('language', request()->getLocale())
+            ->first();
+
+        if (is_null($category)) {
+            abort(404);
+        }
+
+        return $category;
+    }
+//
+    private function getSegmentUrl()
+    {
+        return UrlHelperService::excludeSegmentLocale(request()->segments());
+    }
+//
+    private function getParameterUrl($groupId)
+    {
+        $parameters = Characteristic::whereIn('slug', request()->query->keys())
+            ->where('published', true)
+            ->where('group_id', $groupId)
+            ->doesntHave('getCharacteristicGroup')
+            ->get()
+            ->sortBy('ordering_slug');
+
+        $parameters->map(function ($item, $key) use ($parameters) {
+            if (request()->query->get($item->slug)) {
+                $value = request()->query->get($item->slug);
+                $paramsCharacteristic = json_decode($item->params);
+                if (isset($paramsCharacteristic->explode)) {
+                    $value = explode($paramsCharacteristic->explode, $value);
+                    sort($value);
+                }
+                $parameters->put($item->slug, $value);
+            }
+            $parameters->forget($key);
+        });
+
+        if (request()->query->get('sort')) {
+            $sort = request()->query->get('sort');
+            if (in_array($sort, CategoryService::SORT)) {
+                $parameters->put('sort', $sort);
+            }
+        }
+        if (request()->query->get('page')) {
+            if (request()->query->get('page') > 1) {
+                $parameters->put('page', request()->query->get('page'));
+            }
+        }
+
+        return $parameters;
+    }
+
     private function validDataUrl($category, $arrSlugs)
     {
         $realUrl = $this->getRouteUrl($category->slug, $arrSlugs['path'], $arrSlugs['query'], false);
@@ -386,6 +313,4 @@ class FilterService extends BaseService
             exit;
         }
     }
-
-
 }

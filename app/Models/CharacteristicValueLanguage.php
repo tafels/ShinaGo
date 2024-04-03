@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CharacteristicValueLanguage extends Model
 {
-    use HasFactory;
-
     /**
      * @return string
      */
@@ -24,8 +22,28 @@ class CharacteristicValueLanguage extends Model
         return $this->table;
     }
 
-    public function getCharacteristicGroup(): HasOne
+    public function getId()
     {
-        return $this->hasOne(CharacteristicValueGroup::class, 'id','parent_id');
+        return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    public function getCharacteristicValue(): HasOne
+    {
+        return $this->hasOne(CharacteristicValue::class, 'id','characteristic_value_id');
     }
 }

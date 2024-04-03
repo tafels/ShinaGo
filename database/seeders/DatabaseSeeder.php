@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\CharacteristicValueLanguage;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,11 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(CategorySeeder::class);
         $this->call(TemplateSeeder::class);
+        $this->call(CategorySeeder::class);
         $this->call(BrandSeeder::class);
         $this->call(CharacteristicSeeder::class);
-        $this->call(CharacteristicValueGroupSeeder::class);
+        $this->call(CharacteristicValueSeeder::class);
         $this->call(CharacteristicValueLanguageSeeder::class);
         $this->call(MenuSeeder::class);
     }

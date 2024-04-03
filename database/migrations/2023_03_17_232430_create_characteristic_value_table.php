@@ -1,12 +1,12 @@
 <?php
 
 use App\Models\Characteristic;
-use App\Models\CharacteristicValueGroup;
+use App\Models\CharacteristicValue;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCharacteristicValueGroupsTable extends Migration
+class CreateCharacteristicValueTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class CreateCharacteristicValueGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create((new CharacteristicValueGroup())->getTable(), function (Blueprint $table) {
+        Schema::create((new CharacteristicValue())->getTable(), function (Blueprint $table) {
             $table->increments('id');
             $table->integer('characteristic_id')->unsigned();
             $table->foreign('characteristic_id')->references('id')->on((new Characteristic())->getTable());
@@ -32,6 +32,6 @@ class CreateCharacteristicValueGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists((new CharacteristicValueGroup())->getTable());
+        Schema::dropIfExists((new CharacteristicValue())->getTable());
     }
 }
