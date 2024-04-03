@@ -6,16 +6,16 @@ use App\Models\Menu;
 
 class MenuService extends BaseService
 {
-    public function getDataMenu (Menu $menu): array
+    public function getDataMenu(Menu $menu): array
     {
         $childMenu = [];
 
         /** @var Menu $item */
         $child = $menu->getChild();
 
-        if(count($child)) {
+        if (count($child)) {
             foreach ($child as $item) {
-                if($menu->getId() == $item->getId()){
+                if ($menu->getId() == $item->getId()) {
                     continue;
                 }
                 $childMenu[] = $this->getDataMenu($item);
@@ -39,7 +39,7 @@ class MenuService extends BaseService
             ->where('menu_type', $type)->get();
 
         $menu = collect($menu)->map(function ($value, $key) {
-            if(is_null($value->getParentId())){
+            if (is_null($value->getParentId())) {
                 return $this->getDataMenu($value);
             }
         })->filter();

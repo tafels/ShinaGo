@@ -13,7 +13,7 @@ class LocalizationService extends BaseService
 
         $locale = request()->segment(1, '');
 
-        if($locale === config("app.locale")){
+        if ($locale === config("app.locale")) {
             abort(404);
         }
 

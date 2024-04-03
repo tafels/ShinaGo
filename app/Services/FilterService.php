@@ -236,6 +236,7 @@ class FilterService extends BaseService
             return UrlHelperService::routeUrl('initCategory', ['category' => $category], $query, $absolute);
         }
     }
+
     private function searchCategory($segments)
     {
         $category = CategoryContent::where('slug', array_shift($segments))
@@ -248,11 +249,13 @@ class FilterService extends BaseService
 
         return $category;
     }
+
 //
     private function getSegmentUrl()
     {
         return UrlHelperService::excludeSegmentLocale(request()->segments());
     }
+
 //
     private function getParameterUrl($groupId)
     {

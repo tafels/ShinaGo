@@ -24,12 +24,12 @@ class BaseController extends Controller
      */
     protected function renderView(string $view, array $parameters = [])
     {
-        return view($view ,  $parameters)->render();
+        return view($view, $parameters)->render();
     }
 
-    protected function isErrorPage ($data)
+    protected function isErrorPage($data)
     {
-        if(!$data){
+        if (!$data) {
             abort(404);
         }
     }

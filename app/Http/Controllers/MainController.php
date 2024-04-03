@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class MainController extends BaseController
 {
     public $filterService;
+
     /**
      * @param FilterService $filterService
      */

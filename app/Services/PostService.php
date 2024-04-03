@@ -15,15 +15,16 @@ class PostService
 
         for ($i = 0; $i < count($segments); $i++) {
             $postId = UrlHelper::searchSlugSegments($Post, $this->getPostId(), $segments[$i]);
-            if(!$postId) break;
+            if (!$postId) break;
         }
 
-        return; $this->findView($postId);
+        return;
+        $this->findView($postId);
     }
 
     public function findView($postId)
     {
-        $template =  Post::find($postId)->getTemplate;
+        $template = Post::find($postId)->getTemplate;
 
         return [
             'template' => 'post.' . $template->getName(),

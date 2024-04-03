@@ -15,6 +15,7 @@ class CategoryService extends BaseService
         'asc',
         'desc',
     ];
+
     /**
      * @return array
      */
